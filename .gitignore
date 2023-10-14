@@ -29,3 +29,6 @@ bin/
 .DS_Store
 
 .idea
+population-census-with-test.iml
+PopulationCensus.iml
+Population census.iml

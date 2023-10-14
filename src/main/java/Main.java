@@ -16,18 +16,31 @@ public class Main {
             );
         }
 
-        int firstStream = (int) persons.stream()
-                .filter(x -> x.getAge() < 18)
-                .count();
+        int firstStream = countPersonsUnder18(persons);
         System.out.println(firstStream);
 
-        List<String> secondStream = persons.stream()
-                .filter(x -> x.getAge() >= 18 && x.getAge() <= 27)
-                .map(x -> x.getFamily())
-                .collect(Collectors.toList());
+        List<String> secondStream = getFamiliesBetween18And27(persons);
         System.out.println(secondStream);
 
-        List<Person> thirdStream = persons.stream()
+        List<Person> thirdStream = filterAndSortPersons(persons);
+        System.out.println(thirdStream);
+    }
+
+    public static int countPersonsUnder18(Collection<Person> persons) {
+        return (int) persons.stream()
+                .filter(x -> x.getAge() < 18)
+                .count();
+    }
+
+    public static List<String> getFamiliesBetween18And27(Collection<Person> persons) {
+        return persons.stream()
+                .filter(x -> x.getAge() >= 18 && x.getAge() <= 27)
+                .map(Person::getFamily)
+                .collect(Collectors.toList());
+    }
+
+    public static List<Person> filterAndSortPersons(Collection<Person> persons) {
+        return persons.stream()
                 .filter(person -> {
                     int age = person.getAge();
                     boolean isFemale = person.getSex() == Sex.WOMAN;
@@ -36,6 +49,5 @@ public class Main {
                 .filter(person -> person.getEducation() == Education.HIGHER)
                 .sorted(Comparator.comparing(Person::getFamily))
                 .collect(Collectors.toList());
-        System.out.println(thirdStream);
     }
 }
